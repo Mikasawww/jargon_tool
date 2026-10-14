@@ -1,0 +1,38 @@
+business-jargon-tool/            # 商务日语术语分析工具（Business Jargon Tool v0.1.0）
+│
+├── main.py                 # 程序入口：生成外置 .env 模板 → 加载配置 → 启动主窗口
+├── config.py               # 全局配置常量 + 路径适配（resource_path / FROZEN / 用户目录）
+├── i18n.py                 # 中英日三语框架（t(key, **kwargs) 翻译接口）
+├── exceptions.py           # 统一异常体系（AppError 基类 + E001~E009）
+├── dictionary.py           # 枚举字典（Scene 场景 / ReplyStyle 风格 / 错误码→i18n 映射）
+├── logger.py               # 文件日志（~/.biz_jargon_tool/logs/app.log）
+├── db.py                   # SQLite 收藏数据层（建表 + 增删查）
+├── knowledge_base.json     # 本地知识库（85 条日语商务术语，RAG 数据源，三语字段）
+├── kb_embeddings.npz       # 知识库向量缓存种子（打包随附，首运行复制到用户目录）
+├── requirements.txt        # 依赖清单
+├── jargon_tool.spec        # PyInstaller 打包配置（onedir / 无控制台）
+├── .env                    # 外置配置（API Key，不打入包，首运行自动生成）
+├── api/                    # 业务层（不依赖 UI，可独立测试）
+│   ├── analyze.py          # 核心分析接口：输入校验 + 语言检测 + RAG 注入 + LLM 调用
+│   ├── rag.py              # RAG 混合检索：向量余弦 + 字符串匹配打分
+│   └── embedding.py        # 向量化模块：日语 SBERT 加载 + 增量缓存 + 余弦计算
+├── ui/                     # 界面层
+│   ├── main_window.py      # 主窗口（工作台 Tab + 收藏 Tab，异步分析）
+│   └── favorite_detail.py  # 收藏详情窗口（原文 + 场景 + 结果，支持删除）
+├── locales/                # 三语语言文件（i18n 数据源）
+│   ├── ja.json
+│   ├── zh.json
+│   └── en.json
+└── プロジェクト管理日誌/       # 开发日志（Day 1 ~ Day 11，记录需求/问题/方案）
+    ├── プロジェクト管理日誌1.mk
+    ├── ...
+    └── プロジェクト管理日誌11.mk
+
+# ===== 运行时数据（用户目录 ~/.biz_jargon_tool/，不随包分发）=====
+# logs/app.log           应用日志
+# favorites.db           SQLite 收藏数据库
+# kb_embeddings.npz      知识库向量缓存（首运行从包内种子复制）
+
+# ===== 打包产物 =====
+# dist/BizJargonTool/BizJargonTool.exe   onedir 可执行程序（约 900MB）
+# dist/BizJargonTool/.env                外置 API Key 配置（首运行生成）

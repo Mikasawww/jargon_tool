@@ -1,0 +1,11 @@
+build/
+dist/
+*.exe
+*.pkg
+*.pyz
+__pycache__/
+*.py[cod]
+
+# 忽略环境变量和密钥文件
+.env
+*.env

@@ -1,0 +1,7 @@
+python-dotenv
+openai
+numpy
+sentence-transformers
+torch
+fugashi
+unidic-lite
